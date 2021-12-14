@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание троллейбусов</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- <script src="assets/js/angularJs.js"></script> -->
+    <script src="assets/js/main.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body ng-app="raspisanie" ng-controller="raspisanieCtrl">
+    <!-- Sign UP -->
+    <div class="signUpForm" id="signUpForm" ng-init="isSignIn = false">
+        <span class="close">x</span>
+        <form ng-submit="signUp()">
+            <h1>Регистрация</h1>
+            <label for="su_login">Логин: </label><input type="text" id="su_login" ng-model="su_inputLogin" required><br>
+            <label for="su_pass">Пароль: </label><input type="password" id="su_pass" ng-model="su_inputPass" required><br>
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+    <!-- Sign IN -->
+    <div class="signInForm" id="signInForm">
+        <span class="close">x</span>
+        <form ng-submit="signIn()">
+            <h1>Авторизация</h1>
+            <label for="si_login">Логин: </label><input type="text" id="si_login" ng-model="si_inputLogin" required><br>
+            <label for="si_pass">Пароль: </label><input type="password" id="si_pass" ng-model="si_inputPass" required><br>
+            <input type="submit" value="Войти">
+        </form>
+    </div>
+    <div class="overflow" id="overflow"></div>
+    <!-- HEADER -->
+    <header>
+        <!-- Navigation -->
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li class="actual">Расписание</li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li class="signUpButt" ng-show="!isSignIn">Регистрация</li>
+                <li class="signInButt" ng-show="!isSignIn">Вход</li>
+                <li ng-hide="!isSignIn" class="viewAccounts">Аккаунты</li>
+                <li class="logOutButt" ng-hide="!isSignIn" ng-click="isSignIn = false">Выход</li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Page Content -->
+    <div class="wrap">
+        <!-- Accounts -->
+        <div class="accounts">
+            <span class="close">x</span>
+            <table border="1">
+                <tr>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                </tr>
+                <tr ng-repeat="x in accounts | filter : x.login">
+                    <td><span ng-bind="x.login"></span></td>
+                    <td><span ng-bind="x.password"></span></td>
+                </tr>
+            </table>
+        </div>
+        <form ng-show="isSignIn" name="patForm">
+            <input type="text" ng-model="troll" name="troll" placeholder="Троллейбус" required>
+            <span ng-show="patForm.troll.$dirty && patForm.troll.$invalid && patForm.troll.$error.required" ng-focus="count1 = count1 + 1" ng-init="count1=0">Field is required.</span><br>
+
+            <input type="text" ng-model="start" name="start" placeholder="Отправление" required>
+            <span ng-show="patForm.start.$dirty && patForm.start.$invalid && patForm.start.$error.required">Field is required.</span><br>
+
+            <input type="text" ng-model="finish" name="finish" placeholder="Прибытие" required>
+            <span ng-show="patForm.finish.$dirty && patForm.finish.$invalid && patForm.finish.$error.required">Field is required.</span><br>
+
+            <input type="number" ng-model="route" name="route" placeholder="Маршрут" required>
+            <span ng-show="patForm.route.$dirty && patForm.route.$invalid && patForm.route.$error.required">Field is required.</span><br>
+
+            <input type="submit" value="Добавить расписание" ng-click="raspisanieAdd()" ng-disabled="patForm.$invalid">
+        </form><br>
+        <table border="1">
+            <tr>
+                <th>Троллейбус</th>
+                <th>Время отправления</th>
+                <th>Время прибытия</th>
+                <th>Маршрут</th>
+                <th ng-show="isSignIn">Удалить</th>
+            </tr>
+            <tr ng-repeat="x in raspisanieList">
+                <td>{{x.troll}}</td>
+                <td>{{x.start}}</td>
+                <td>{{x.finish}}</td>
+                <td>{{x.route}}</td>
+                <td class="td-butt" ng-show="isSignIn"><button ng-click="raspisanieRemove(x.route)">Удалить</button></td>
+            </tr>
+        </table>
+    </div>
+    <footer>
+        <span>© 2021 Copyright by Alexandr Stetsenco</span>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расписание троллейбусов</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- <script src="assets/js/angularJs.js"></script> -->
+    <script src="assets/js/main.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body ng-app="raspisanie" ng-controller="raspisanieCtrl">
+    <!-- Sign UP -->
+    <div class="signUpForm" id="signUpForm" ng-init="isSingIn = false">
+        <span class="close">x</span>
+        <form ng-submit="signUp()">
+            <h1>Регистрация</h1>
+            <label for="su_login">Логин: </label><input type="text" id="su_login" ng-model="su_inputLogin" required><br>
+            <label for="su_pass">Пароль: </label><input type="password" id="su_pass" ng-model="su_inputPass" required><br>
+            <input type="submit" value="Зарегистрироваться">
+        </form>
+    </div>
+    <!-- Sign IN -->
+    <div class="signInForm" id="signInForm">
+        <span class="close">x</span>
+        <form ng-submit="signIn()">
+            <h1>Авторизация</h1>
+            <label for="si_login">Логин: </label><input type="text" id="si_login" ng-model="si_inputLogin" required><br>
+            <label for="si_pass">Пароль: </label><input type="password" id="si_pass" ng-model="si_inputPass" required><br>
+            <input type="submit" value="Войти">
+        </form>
+    </div>
+    <div class="overflow" id="overflow"></div>
+    <!-- HEADER -->
+    <header>
+        <!--Navigation -->
+        <nav>
+            <ul>
+                <li class="actual">Главная</li>
+                <li><a href="raspisanie.html">Расписание</a></li>
+                <li><a href="contacts.html">Контакты</a></li>
+                <li class="signUpButt" ng-show="!isSignIn">Регистрация</li>
+                <li class="signInButt" ng-show="!isSignIn">Вход</li>
+                <li ng-hide="!isSignIn" class="viewAccounts">Аккаунты</li>
+                <li class="logOutButt" ng-hide="!isSignIn" ng-click="isSignIn = false">Выход</li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Page Content -->
+    <div class="wrap">
+        <!-- Accounts -->
+        <div class="accounts">
+            <span class="close">x</span>
+            <table border="1">
+                <tr>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                </tr>
+                <tr ng-repeat="x in accounts">
+                    <td>{{x.login}}</td>
+                    <td>{{x.password}}</td>
+                </tr>
+            </table>
+        </div>
+        <!-- aboutUs -->
+        <h1>История Троллейбуса</h1>
+        <p ng-mouseover = "count = count + 1" ng-copy="count = count + 1" ng-cut="count = count + 1" ng-init="count=0">Троллейбус – один из самых популярных видов
+            общественного транспорта на территории бывшего Советского Союза. Пожалуй, нигде в мире нет столько троллейбусов, сколько в нашей стране. Более того, во
+            многих развитых странах от использования троллейбуса давно отказались – целиком, либо частично – а у нас он по-прежнему в ходу.
+            Первый троллейбус был создан в Германии инженером Вернером фон Сименсом, вероятно, под влиянием идеи его брата, 
+            проживавшего в Англии доктора Вильгельма Сименса, высказанной 18 мая 1881 года на двадцать втором заседании Королевского научного общества.</p>
+         <div class="exchangeRates"><br>
+            <div class="exch">
+                <h1>Актуальные курсы валют</h1>
+                MDL: <input type="number" ng-model="mdl" ng-init="mdl=1"><br>
+                <span>RUB: {{mdl * exch[1].value}}</span><br>
+                <span>DOLLAR: {{mdl * exch[2].value}}</span><br>
+                <span>EURO: {{mdl * exch[3].value}}</span><br>
+                <span>GRIVNA: {{mdl * exch[4].value}}</span>
+            </div>
+            <!--<span ng-non-bindable>ng-non-bindable: {{count}}</span>
+            copy count: {{count}}-->
+         </div>
+    </div>
+    <footer>
+        <span>© 2021 Copyright by Alexandr Stetsenco</span>
+    </footer>
+</body>
+</html>
